@@ -1,0 +1,14 @@
+generated-java
+*.iml
+
+# Gradle 4.1 + IntelliJ build directory:
+out/
+
+**/build
+
+*.log
+.gradle
+schema
+
+.idea/*
+
