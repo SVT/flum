@@ -7,7 +7,7 @@ plugins {
     kotlin("kapt") version "1.3.41"
     kotlin("plugin.spring") version "1.3.41"
     id("org.jmailen.kotlinter") version "1.25.2"
-    id("pl.allegro.tech.build.axion-release") version "1.10.1"
+    id("pl.allegro.tech.build.axion-release") version "1.10.2"
     id("com.github.ben-manes.versions") version "0.21.0"
     id("com.jfrog.bintray") version "1.8.4"
 }
@@ -24,11 +24,6 @@ version = scmVersion.version
 tasks.test {
     useJUnitPlatform()
 }
-
-//tasks.register<Jar>("sourcesJar") {
-//    from(sourceSets.main.get().allJava)
-//    archiveClassifier.set("sources")
-//}
 
 repositories {
     jcenter()
