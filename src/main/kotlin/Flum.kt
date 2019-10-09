@@ -11,18 +11,24 @@ import org.assertj.core.api.SoftAssertions
 import se.svt.oss.flum.assertions.RecordedRequestAssert
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentSkipListMap
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.LinkedBlockingQueue
 
 const val INTERNAL_SERVER_ERROR = 500
 
-class Flum(private val port: Int = FreePortFinder.findFreeLocalPort()) {
+class Flum(
+    val port: Int = FreePortFinder.findFreeLocalPort(),
+    val matchRequestOrder: Boolean = true
+) {
 
     private val log = KotlinLogging.logger {}
 
     val server = MockWebServer()
 
     private val expectedRequests = ConcurrentHashMap<String, ExpectedRequest>()
+
+    private val unmatchedExpectedRequests = ConcurrentSkipListMap<Int, ExpectedRequest>()
 
     private val unmatchedRequests = CopyOnWriteArrayList<RecordedRequest>()
 
@@ -54,11 +60,20 @@ class Flum(private val port: Int = FreePortFinder.findFreeLocalPort()) {
             expectedRequests[it]
         }
 
+    private fun nextMatchingRequest(request: RecordedRequest) =
+        unmatchedExpectedRequests.keys.asSequence()
+            .filter { unmatchedExpectedRequests[it]?.requestMatcher?.match(request) == true }
+            .map { unmatchedExpectedRequests.remove(it) }
+            .filterNotNull()
+            .firstOrNull()
+
     fun dispatch(request: RecordedRequest): MockResponse {
         log.info { "Dispatching request $request" }
         return try {
             receivedRequests.add(request)
-            val expectedRequest = nextExpectedRequest()
+            val expectedRequest =
+                if (matchRequestOrder) nextExpectedRequest()
+                else nextMatchingRequest(request)
 
             val response =
                 if (expectedRequest == null || !expectedRequest.requestMatcher.match(request)) {
@@ -82,6 +97,7 @@ class Flum(private val port: Int = FreePortFinder.findFreeLocalPort()) {
         val expectedRequest = ExpectedRequest(id)
         expectedRequests[id] = expectedRequest
         expectedOrder.add(id)
+        unmatchedExpectedRequests[unmatchedExpectedRequests.size] = expectedRequest
         return expectedRequest.requestMatcher
     }
 

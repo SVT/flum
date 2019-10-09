@@ -7,6 +7,7 @@ import okhttp3.RequestBody
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import se.svt.oss.flum.Flum
 
@@ -16,12 +17,7 @@ class FlumTest {
 
     val port = FreePortFinder.findFreeLocalPort()
 
-    val flum = Flum(port)
-
-    @BeforeEach
-    fun before() {
-        flum.start()
-    }
+    lateinit var flum: Flum
 
     @AfterEach
     fun tearDown() {
@@ -32,52 +28,124 @@ class FlumTest {
         }
     }
 
-    @Test
-    fun testUsingFlum() {
-        flum.expectRequest("test request 1")
-            .toPath("/myService")
-            .withMethod("GET")
-            .thenRespond()
-            .withStatus(200)
-            .withBody("SUCCESS")
-            .afterwardsVerifyRequest()
-            .hasQueryParameter("myParam", "myValue")
+    @Nested
+    inner class ExpectRequestsInOrder {
 
-        flum.expectRequest("test request 2")
-            .toPath("/myService")
-            .withMethod("POST")
-            .thenRespond()
-            .withStatus(202)
-            .withBody("ALSO SUCCESS")
-            .afterwardsVerifyRequest()
-            .hasBody("Hello World!")
+        @BeforeEach
+        fun before() {
+            flum = Flum(port).apply {
+                start()
+            }
+        }
 
-        callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+        @Test
+        fun requestsWithVerification() {
+            flum.expectRequest("test request 1")
+                    .toPath("/myService")
+                    .withMethod("GET")
+                    .thenRespond()
+                    .withStatus(200)
+                    .withBody("SUCCESS")
+                    .afterwardsVerifyRequest()
+                    .hasQueryParameter("myParam", "myValue")
+
+            flum.expectRequest("test request 2")
+                    .toPath("/myService")
+                    .withMethod("POST")
+                    .thenRespond()
+                    .withStatus(202)
+                    .withBody("ALSO SUCCESS")
+                    .afterwardsVerifyRequest()
+                    .hasBody("Hello World!")
+
+            callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+        }
+
+        @Test
+        fun requestsWithVerificationsLast() {
+            flum.expectRequest("test request 1")
+                    .toPath("/myService")
+                    .withMethod("GET")
+                    .thenRespond()
+                    .withStatus(200)
+                    .withBody("SUCCESS")
+
+            flum.expectRequest("test request 2")
+                    .toPath("/myService")
+                    .withMethod("POST")
+                    .thenRespond()
+                    .withStatus(202)
+                    .withBody("ALSO SUCCESS")
+
+            callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+
+            flum.assertThatRecordedRequest("test request 1")
+                    .hasQueryParameter("myParam", "myValue")
+
+            flum.assertThatRecordedRequest("test request 2")
+                    .hasBody("Hello World!")
+        }
     }
 
-    @Test
-    fun testFlumWithVerificationsLast() {
-        flum.expectRequest("test request 1")
-            .toPath("/myService")
-            .withMethod("GET")
-            .thenRespond()
-            .withStatus(200)
-            .withBody("SUCCESS")
+    @Nested
+    inner class ExpectRequestsIgnoreOrder {
 
-        flum.expectRequest("test request 2")
-            .toPath("/myService")
-            .withMethod("POST")
-            .thenRespond()
-            .withStatus(202)
-            .withBody("ALSO SUCCESS")
+        @BeforeEach
+        fun before() {
+            flum = Flum(port, false).apply {
+                start()
+            }
+        }
 
-        callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+        @Test
+        fun requestsWithVerification() {
 
-        flum.assertThatRecordedRequest("test request 1")
-            .hasQueryParameter("myParam", "myValue")
+            flum.expectRequest("test request 2")
+                    .toPath("/myService")
+                    .withMethod("POST")
+                    .thenRespond()
+                    .withStatus(202)
+                    .withBody("ALSO SUCCESS")
+                    .afterwardsVerifyRequest()
+                    .hasBody("Hello World!")
 
-        flum.assertThatRecordedRequest("test request 2")
-            .hasBody("Hello World!")
+            flum.expectRequest("test request 1")
+                    .toPath("/myService")
+                    .withMethod("GET")
+                    .thenRespond()
+                    .withStatus(200)
+                    .withBody("SUCCESS")
+                    .afterwardsVerifyRequest()
+                    .hasQueryParameter("myParam", "myValue")
+
+            callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+        }
+
+        @Test
+        fun requestsWithVerificationsLast() {
+
+            flum.expectRequest("test request 2")
+                    .toPath("/myService")
+                    .withMethod("POST")
+                    .thenRespond()
+                    .withStatus(202)
+                    .withBody("ALSO SUCCESS")
+
+            flum.expectRequest("test request 1")
+                    .toPath("/myService")
+                    .withMethod("GET")
+                    .thenRespond()
+                    .withStatus(200)
+                    .withBody("SUCCESS")
+
+            callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
+
+            flum.assertThatRecordedRequest("test request 1")
+                    .hasQueryParameter("myParam", "myValue")
+
+            flum.assertThatRecordedRequest("test request 2")
+                    .hasBody("Hello World!")
+        }
     }
 
     private fun callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests() {

@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.TestInstancePostProcessor
 import org.junit.platform.commons.support.ReflectionSupport
 import java.lang.reflect.Field
 
-class FlumExtension(val port: Int? = null) : ParameterResolver, AfterEachCallback, TestInstancePostProcessor {
+open class FlumExtension(val port: Int? = null, val matchRequestOrder: Boolean = true) : ParameterResolver,
+AfterEachCallback,
+    TestInstancePostProcessor {
 
     val FLUM_SERVER = "flum server"
 
@@ -35,7 +37,7 @@ class FlumExtension(val port: Int? = null) : ParameterResolver, AfterEachCallbac
 
     private fun createFlum(testInstance: Any, extensionContext: ExtensionContext?): Flum {
         val serverPort = port ?: findFlumPort(testInstance)
-        val flum = Flum(serverPort)
+        val flum = Flum(serverPort, matchRequestOrder)
         flum.start()
 
         getStore(extensionContext).put(FLUM_SERVER, flum)
