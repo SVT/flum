@@ -12,6 +12,10 @@ welcome, see [CONTRIBUTING](#getting-involved)
  
 Project is built in kotlin, java interop is currently untested.
 
+Jar is available from jcenter. Use in gradle like below.
+
+```compile 'se.svt.oss:flum:1.1.0'```
+
 ## TODO
 - Verification of binary body
 
