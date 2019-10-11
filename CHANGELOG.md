@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.1.1 - 2019-10-11
+### Added
+- Convience methods for expecting a specific http method call was added to `Flum` class
+(`expectGet()`, `expectPost()` etc)
+### Fixed
+- FlumExtension now works correctly with test class hierarchies. 
+
 ## 1.1.0 - 2019-10-09
 ### Added
 - Support for ignoring request order

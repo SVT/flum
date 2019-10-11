@@ -40,18 +40,16 @@ class FlumTest {
 
         @Test
         fun requestsWithVerification() {
-            flum.expectRequest("test request 1")
+            flum.expectGet("test request 1")
                     .toPath("/myService")
-                    .withMethod("GET")
                     .thenRespond()
                     .withStatus(200)
                     .withBody("SUCCESS")
                     .afterwardsVerifyRequest()
                     .hasQueryParameter("myParam", "myValue")
 
-            flum.expectRequest("test request 2")
+            flum.expectPost("test request 2")
                     .toPath("/myService")
-                    .withMethod("POST")
                     .thenRespond()
                     .withStatus(202)
                     .withBody("ALSO SUCCESS")
@@ -63,9 +61,8 @@ class FlumTest {
 
         @Test
         fun requestsWithVerificationsLast() {
-            flum.expectRequest("test request 1")
+            flum.expectGet("test request 1")
                     .toPath("/myService")
-                    .withMethod("GET")
                     .thenRespond()
                     .withStatus(200)
                     .withBody("SUCCESS")
@@ -100,18 +97,16 @@ class FlumTest {
         @Test
         fun requestsWithVerification() {
 
-            flum.expectRequest("test request 2")
+            flum.expectPost("test request 2")
                     .toPath("/myService")
-                    .withMethod("POST")
                     .thenRespond()
                     .withStatus(202)
                     .withBody("ALSO SUCCESS")
                     .afterwardsVerifyRequest()
                     .hasBody("Hello World!")
 
-            flum.expectRequest("test request 1")
+            flum.expectGet("test request 1")
                     .toPath("/myService")
-                    .withMethod("GET")
                     .thenRespond()
                     .withStatus(200)
                     .withBody("SUCCESS")
@@ -131,9 +126,8 @@ class FlumTest {
                     .withStatus(202)
                     .withBody("ALSO SUCCESS")
 
-            flum.expectRequest("test request 1")
+            flum.expectGet("test request 1")
                     .toPath("/myService")
-                    .withMethod("GET")
                     .thenRespond()
                     .withStatus(200)
                     .withBody("SUCCESS")
