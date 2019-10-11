@@ -33,7 +33,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8", "1.3.41"))
     runtimeOnly(kotlin("reflect", "1.3.41"))
 
-    implementation("com.squareup.okhttp3:mockwebserver:3.10.0")
+    api("com.squareup.okhttp3:mockwebserver:3.10.0")
     implementation("io.github.microutils:kotlin-logging:1.6.26")
     implementation("me.alexpanov:free-port-finder:1.1.1")
     implementation("org.assertj:assertj-core:3.11.1")
