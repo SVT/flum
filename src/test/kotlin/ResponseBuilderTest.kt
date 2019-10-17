@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test
 import se.svt.oss.flum.RequestAction
 import se.svt.oss.flum.RequestVerifyer
 import se.svt.oss.flum.ResponseBuilder
+import java.io.ByteArrayInputStream
+import java.nio.charset.StandardCharsets
 
 internal class ResponseBuilderTest {
 
@@ -88,6 +90,20 @@ internal class ResponseBuilderTest {
 
             assertThat(response.body.readUtf8())
                 .isEqualTo(body)
+        }
+    }
+
+    @Nested
+    inner class WithBodyFromInputStream {
+        @Test
+        fun `Sets  the given body`() {
+            val body = "This is body"
+            responseBuilder.withBody(ByteArrayInputStream(body.toByteArray(StandardCharsets.UTF_8)))
+
+            val response = responseBuilder.response(request)
+
+            assertThat(response.body.readUtf8())
+                    .isEqualTo(body)
         }
     }
 

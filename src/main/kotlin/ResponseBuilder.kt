@@ -2,6 +2,8 @@ package se.svt.oss.flum
 
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
+import okio.Buffer
+import java.io.InputStream
 
 class ResponseBuilder(private val requestVerifyer: RequestVerifyer) {
 
@@ -34,6 +36,14 @@ class ResponseBuilder(private val requestVerifyer: RequestVerifyer) {
                 it.setBody(body)
             }
         }
+
+    @Synchronized
+    fun withBody(body: InputStream): ResponseBuilder =
+            apply {
+                this.responseModifiers.add {
+                    it.setBody(Buffer().readFrom(body))
+                }
+            }
 
     @Synchronized
     fun withJsonBody(body: String): ResponseBuilder =
