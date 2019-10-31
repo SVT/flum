@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.1.2
+### Added
+- Response body can now be set from an input stream
+
 ## 1.1.1 - 2019-10-11
 ### Added
 - Convience methods for expecting a specific http method call was added to `Flum` class

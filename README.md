@@ -10,11 +10,13 @@ This is a work in progress, the available features, allthough they should cover 
 are based on what has been needed for the authors. Suggestions on features to add are much
 welcome, see [CONTRIBUTING](#getting-involved)
  
-Project is built in kotlin, java interop is currently untested.
+Project is built in kotlin. Compatible with java 11.
+
+Junit 5.5 or newer is needed to use the junit5 extension.
 
 Jar is available from jcenter. Use in gradle like below.
 
-```compile 'se.svt.oss:flum:1.1.0'```
+```compile 'se.svt.oss:flum:x.y.z'```
 
 ## TODO
 - Verification of binary body
