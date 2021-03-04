@@ -63,12 +63,14 @@ publishing {
             url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 
             credentials {
-                username sonatypeUsername
-                password sonatypePassword
+                password project.sonatypePassword
+                username project.sonatypeUsername
             }
         }
     }
 }
+
 signing {
+    useInMemoryPgpKeys(project.signKeyId, project.signSecretKeyRingFile, project.signPassword)
     sign publishing.publications
 }
