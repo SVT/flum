@@ -19,6 +19,22 @@ val PUBLISH_ARTIFACT_ID by extra("flum")
 group = PUBLISH_GROUP_ID
 project.version = PUBLISH_VERSION
 
+//TO-DO Move to seperate publishing file, kotlin dsl
+val signKeyId by extra(System.getenv("SIGNING_KEY_ID") ?: findProperty("signing.keyId") ?: "")
+val signPassword by extra(System.getenv("SIGNING_PWD") ?: findProperty("signing.password") ?: "")
+val signSecretKeyRingFile by extra(keyfile())
+val sonatypeUsername by extra(System.getenv("SONATYPE_USER") ?: findProperty("sonatypeUsername") ?: "")
+val sonatypePassword by extra(System.getenv("SONATYPE_PWD") ?: findProperty("sonatypePassword") ?: "")
+
+fun keyfile(): String {
+
+    var key = System.getenv("SIGNING_KEY")
+    if (key.isNullOrEmpty()) {
+        key = findProperty("signing.secretKeyRingFile")?.toString() ?: ""
+    }
+    return key
+}
+
 apply { from("publishing.gradle") }
 
 tasks.test {

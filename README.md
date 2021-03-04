@@ -120,13 +120,6 @@ class ExampleTest {
 ./gradlew test
 ```
 
-
-## Update version and release to jcenter/bintray (for maintainers)
-
-1. Make sure you are on master branch and that everything is pushed to master
-2. ./gradlew release to tag a new version (uses Axion release plugin - needs ssh key for repo)
-3.  ./gradlew bintrayUpload to upload to repo - needs BINTRAY_KEY and BINTRAY_USER environment variables
-
 ## Known issues
 
 
