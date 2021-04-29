@@ -39,11 +39,11 @@ class ResponseBuilder(private val requestVerifyer: RequestVerifyer) {
 
     @Synchronized
     fun withBody(body: InputStream): ResponseBuilder =
-            apply {
-                this.responseModifiers.add {
-                    it.setBody(Buffer().readFrom(body))
-                }
+        apply {
+            this.responseModifiers.add {
+                it.setBody(Buffer().readFrom(body))
             }
+        }
 
     @Synchronized
     fun withJsonBody(body: String): ResponseBuilder =
@@ -63,6 +63,7 @@ class ResponseBuilder(private val requestVerifyer: RequestVerifyer) {
         actions.forEach { it.invoke(request) }
         return responseModifiers.fold(
             responseProducer.invoke(request),
-            { response, modifier -> modifier.invoke(response) })
+            { response, modifier -> modifier.invoke(response) }
+        )
     }
 }

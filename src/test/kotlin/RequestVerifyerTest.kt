@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import se.svt.oss.flum.APPLICATION_JSON
 import se.svt.oss.flum.APPLICATION_JSON_UTF8
-import se.svt.oss.flum.CONTENT_TYPE
 import se.svt.oss.flum.BodyDeserializer
+import se.svt.oss.flum.CONTENT_TYPE
 import se.svt.oss.flum.RequestVerification
 import se.svt.oss.flum.RequestVerifyer
 import java.nio.charset.StandardCharsets

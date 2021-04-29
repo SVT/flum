@@ -24,7 +24,8 @@ class RequestMatcher(private val responseBuilder: ResponseBuilder) {
     fun withQueryParameter(name: String, vararg values: String) =
         apply {
             matchers.add {
-                request -> request.requestUrl.queryParameterValues(name) == values.toList()
+                request ->
+                request.requestUrl.queryParameterValues(name) == values.toList()
             }
         }
 
