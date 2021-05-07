@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "se.svt.oss"
-project.version = "1.3.2" //scmVersion.version
+project.version = scmVersion.version
 
 tasks.test {
     useJUnitPlatform()
