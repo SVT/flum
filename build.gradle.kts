@@ -1,41 +1,19 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    `maven-publish`
-    signing
     idea
-    kotlin("jvm") version "1.3.41"
-    kotlin("kapt") version "1.3.41"
-    kotlin("plugin.spring") version "1.3.41"
-    id("org.jmailen.kotlinter") version "1.25.2"
+    kotlin("jvm") version "1.4.32"
+    kotlin("kapt") version "1.4.32"
+    kotlin("plugin.spring") version "1.4.32"
+            ""
+    id("org.jmailen.kotlinter") version "3.4.3"
     id("pl.allegro.tech.build.axion-release") version "1.10.2"
     id("com.github.ben-manes.versions") version "0.21.0"
+    id("se.svt.oss.gradle-yapp-publisher-plugin") version "0.1.10"
 }
 
-val PUBLISH_GROUP_ID by extra("se.svt.oss")
-val PUBLISH_VERSION by extra(scmVersion.version)
-val PUBLISH_ARTIFACT_ID by extra("flum")
-
-group = PUBLISH_GROUP_ID
-project.version = PUBLISH_VERSION
-
-//TO-DO Move to seperate publishing file, kotlin dsl
-val signKeyId by extra(System.getenv("SIGNING_KEY_ID") ?: findProperty("signing.keyId") ?: "")
-val signPassword by extra(System.getenv("SIGNING_PWD") ?: findProperty("signing.password") ?: "")
-val signSecretKeyRingFile by extra(keyfile())
-val sonatypeUsername by extra(System.getenv("SONATYPE_USER") ?: findProperty("sonatypeUsername") ?: "")
-val sonatypePassword by extra(System.getenv("SONATYPE_PWD") ?: findProperty("sonatypePassword") ?: "")
-
-fun keyfile(): String {
-
-    var key = System.getenv("SIGNING_KEY")
-    if (key.isNullOrEmpty()) {
-        key = findProperty("signing.secretKeyRingFile")?.toString() ?: ""
-    }
-    return key
-}
-
-apply { from("publishing.gradle") }
+group = "se.svt.oss"
+project.version = scmVersion.version
 
 tasks.test {
     useJUnitPlatform()
@@ -46,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8", "1.3.41"))
-    runtimeOnly(kotlin("reflect", "1.3.41"))
+    implementation(kotlin("stdlib-jdk8", "1.4.32"))
+    implementation(kotlin("reflect", "1.4.32"))
 
     api("com.squareup.okhttp3:mockwebserver:3.10.0")
     implementation("io.github.microutils:kotlin-logging:1.6.26")

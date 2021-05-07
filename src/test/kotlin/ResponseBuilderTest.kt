@@ -103,7 +103,7 @@ internal class ResponseBuilderTest {
             val response = responseBuilder.response(request)
 
             assertThat(response.body.readUtf8())
-                    .isEqualTo(body)
+                .isEqualTo(body)
         }
     }
 

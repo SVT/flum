@@ -23,11 +23,12 @@ jobs:
 
       - name: Sonatype upload
         env: 
-          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
-          SONATYPE_PWD: ${{ secrets.SONATYPE_PWD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PWD: ${{ secrets.SIGNING_PWD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        run: ./gradlew publishReleasePublicationToMavencentralRepository
+          YAPP_OSSRHUSER: ${{ secrets.SONATYPE_USER }}
+          YAPP_OSSRHPASSWORD: ${{ secrets.SONATYPE_PWD }}
+          YAPP_SIGNING_KEYID: ${{ secrets.SIGNING_KEY_ID }}
+          YAPP_SIGNING_KEYSECRET: ${{ secrets.SIGNING_PWD }}
+          YAPP_SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        
+        run: ./gradlew publishPluginMavenPublicationToMavenCentralRepository
 
 

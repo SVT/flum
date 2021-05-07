@@ -41,20 +41,20 @@ class FlumTest {
         @Test
         fun requestsWithVerification() {
             flum.expectGet("test request 1")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(200)
-                    .withBody("SUCCESS")
-                    .afterwardsVerifyRequest()
-                    .hasQueryParameter("myParam", "myValue")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(200)
+                .withBody("SUCCESS")
+                .afterwardsVerifyRequest()
+                .hasQueryParameter("myParam", "myValue")
 
             flum.expectPost("test request 2")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(202)
-                    .withBody("ALSO SUCCESS")
-                    .afterwardsVerifyRequest()
-                    .hasBody("Hello World!")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(202)
+                .withBody("ALSO SUCCESS")
+                .afterwardsVerifyRequest()
+                .hasBody("Hello World!")
 
             callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
         }
@@ -62,25 +62,25 @@ class FlumTest {
         @Test
         fun requestsWithVerificationsLast() {
             flum.expectGet("test request 1")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(200)
-                    .withBody("SUCCESS")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(200)
+                .withBody("SUCCESS")
 
             flum.expectRequest("test request 2")
-                    .toPath("/myService")
-                    .withMethod("POST")
-                    .thenRespond()
-                    .withStatus(202)
-                    .withBody("ALSO SUCCESS")
+                .toPath("/myService")
+                .withMethod("POST")
+                .thenRespond()
+                .withStatus(202)
+                .withBody("ALSO SUCCESS")
 
             callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
 
             flum.assertThatRecordedRequest("test request 1")
-                    .hasQueryParameter("myParam", "myValue")
+                .hasQueryParameter("myParam", "myValue")
 
             flum.assertThatRecordedRequest("test request 2")
-                    .hasBody("Hello World!")
+                .hasBody("Hello World!")
         }
     }
 
@@ -98,20 +98,20 @@ class FlumTest {
         fun requestsWithVerification() {
 
             flum.expectPost("test request 2")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(202)
-                    .withBody("ALSO SUCCESS")
-                    .afterwardsVerifyRequest()
-                    .hasBody("Hello World!")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(202)
+                .withBody("ALSO SUCCESS")
+                .afterwardsVerifyRequest()
+                .hasBody("Hello World!")
 
             flum.expectGet("test request 1")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(200)
-                    .withBody("SUCCESS")
-                    .afterwardsVerifyRequest()
-                    .hasQueryParameter("myParam", "myValue")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(200)
+                .withBody("SUCCESS")
+                .afterwardsVerifyRequest()
+                .hasQueryParameter("myParam", "myValue")
 
             callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
         }
@@ -120,25 +120,25 @@ class FlumTest {
         fun requestsWithVerificationsLast() {
 
             flum.expectRequest("test request 2")
-                    .toPath("/myService")
-                    .withMethod("POST")
-                    .thenRespond()
-                    .withStatus(202)
-                    .withBody("ALSO SUCCESS")
+                .toPath("/myService")
+                .withMethod("POST")
+                .thenRespond()
+                .withStatus(202)
+                .withBody("ALSO SUCCESS")
 
             flum.expectGet("test request 1")
-                    .toPath("/myService")
-                    .thenRespond()
-                    .withStatus(200)
-                    .withBody("SUCCESS")
+                .toPath("/myService")
+                .thenRespond()
+                .withStatus(200)
+                .withBody("SUCCESS")
 
             callSomeCodeThatIsSuppoedToExecuteTheExpectedRequests()
 
             flum.assertThatRecordedRequest("test request 1")
-                    .hasQueryParameter("myParam", "myValue")
+                .hasQueryParameter("myParam", "myValue")
 
             flum.assertThatRecordedRequest("test request 2")
-                    .hasBody("Hello World!")
+                .hasBody("Hello World!")
         }
     }
 
@@ -162,11 +162,11 @@ class FlumTest {
     }
 
     fun doRequest(url: String, method: String = "GET", body: RequestBody? = null) =
-            okHttpClient.newCall(
-                    Request.Builder()
-                            .method(method, body)
-                            .url(url)
-                            .build()
-            )
-                    .execute()
+        okHttpClient.newCall(
+            Request.Builder()
+                .method(method, body)
+                .url(url)
+                .build()
+        )
+            .execute()
 }
