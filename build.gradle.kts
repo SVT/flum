@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("maven-publish")
     idea
     kotlin("jvm") version "1.4.32"
     kotlin("kapt") version "1.4.32"
@@ -8,8 +9,8 @@ plugins {
             ""
     id("org.jmailen.kotlinter") version "3.4.3"
     id("pl.allegro.tech.build.axion-release") version "1.10.2"
-    id("com.github.ben-manes.versions") version "0.21.0"
-    id("se.svt.oss.gradle-yapp-publisher-plugin") version "0.1.10"
+    id("se.ascp.gradle.gradle-versions-filter") version "0.1.8"
+    id("se.svt.oss.gradle-yapp-publisher-plugin") version "0.1.13"
 }
 
 group = "se.svt.oss"
