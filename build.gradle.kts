@@ -1,7 +1,4 @@
-
-
 plugins {
-    id("maven-publish")
     idea
     kotlin("jvm") version "1.6.21"
     kotlin("kapt") version "1.6.21"
@@ -9,7 +6,7 @@ plugins {
     id("org.jmailen.kotlinter") version "3.10.0"
     id("pl.allegro.tech.build.axion-release") version "1.13.7"
     id("se.ascp.gradle.gradle-versions-filter") version "0.1.16"
-    id("se.svt.oss.gradle-yapp-publisher-plugin") version "0.1.13"
+    id("se.svt.oss.gradle-yapp-publisher") version "0.1.18"
 }
 
 scmVersion.tag.prefix = "release"
