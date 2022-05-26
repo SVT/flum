@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Sveriges Television AB
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package se.svt.oss.flum
 
 import okhttp3.mockwebserver.RecordedRequest
@@ -24,7 +28,7 @@ class RequestMatcher(private val responseBuilder: ResponseBuilder) {
     fun withQueryParameter(name: String, vararg values: String) =
         apply {
             matchers.add {
-                request ->
+                    request ->
                 request.requestUrl.queryParameterValues(name) == values.toList()
             }
         }

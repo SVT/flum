@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 Sveriges Television AB
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import me.alexpanov.net.FreePortFinder
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
