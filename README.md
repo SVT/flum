@@ -1,6 +1,6 @@
 # FluM - Fluent Mock Web Server
 
-![REUSE Compliance](https://img.shields.io/reuse/compliance/github.com/svt/flum)
+[![REUSE Compliance](https://img.shields.io/reuse/compliance/github.com/svt/flum)](https://api.reuse.software/info/github.com/svt/flum)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/svt/flum)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)]
 
