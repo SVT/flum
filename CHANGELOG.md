@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.8] - 2022-05-27
+### Added
+- Pin jvm 11-toolchain. 
+
 ## [1.1.7] - 2022-05-26
 ### Added
 - Maintenance release - improve workflow, publishing, tidy ups, reuse compliance, deps.
