@@ -23,7 +23,7 @@ open class FlumExtension(val port: Int? = null, val matchRequestOrder: Boolean =
 
     override fun postProcessTestInstance(testInstance: Any?, context: ExtensionContext?) {
         findField(testInstance!!) { it.type == Flum::class.java }
-            .firstOrNull()?.run {
+            ?.run {
                 if (canAccess(testInstance)) {
                     set(testInstance, createFlum(testInstance, context))
                 } else {
@@ -63,7 +63,6 @@ open class FlumExtension(val port: Int? = null, val matchRequestOrder: Boolean =
 
     private fun flumPortFromAnnotatedField(testInstance: Any) =
         findField(testInstance) { it.getAnnotation(FlumPort::class.java) != null }
-            .firstOrNull()
             ?.let { intValue(testInstance, it) }
 
     private fun flumPortFromNamedMethod(testInstance: Any) =
@@ -108,6 +107,9 @@ open class FlumExtension(val port: Int? = null, val matchRequestOrder: Boolean =
 }
 
 private fun findField(instance: Any, predicate: (Field) -> Boolean) =
-    instance.let {
-        ReflectionSupport.findFields(it.javaClass, predicate, HierarchyTraversalMode.BOTTOM_UP)
-    }
+    findFieldInHierarchy(instance.javaClass, predicate)
+
+private fun <T> findFieldInHierarchy(clazz: Class<T>, predicate: (Field) -> Boolean): Field? {
+    return clazz.declaredFields.asList().firstOrNull(predicate)
+        ?: clazz.superclass?.let { findFieldInHierarchy(it, predicate) }
+}
